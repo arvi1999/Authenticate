@@ -11,6 +11,10 @@ contract Signup {
     function getUsers(string e) public view returns(address) {
         return newUsers[e];
     }
+
+    function deleteUser(string e) public {
+        delete newUsers[e];
+    }
 }
 
 

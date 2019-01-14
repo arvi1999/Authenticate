@@ -37,7 +37,7 @@ class UpdatePassword extends Component {
         const address = await signup.methods.getUsers(this.state.email).call();
         if (address !== "0x0000000000000000000000000000000000000000") {
           this.setState({ address: address });
-          Router.pushRoute(`/users/${address}`);
+          Router.pushRoute(`/password/${this.state.email}/${address}`);
         } else {
           this.setState({ errorMessage: "Email not found in our records !!" });
           this.setState({ loading: false });
