@@ -94,13 +94,13 @@ class UpdatedPassword extends Component {
 
         const accounts = await new web3.eth.getAccounts();
 
-        await signup.methods.deleteUser(email).send(
+        await signup.methods.deleteUser(name, dob, imageHash, pass, email).send(
           {from: accounts[0]}
         );
 
-        const new_user = await signup.methods
-        .addUser(name, dob, imageHash, pass, email)
-        .send({from: accounts[0]});
+        // const new_user = await signup.methods
+        // .addUser(name, dob, imageHash, pass, email)
+        // .send({from: accounts[0]});
 
         this.setState({loading: false, errorMessage: ""});
 

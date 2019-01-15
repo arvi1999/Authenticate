@@ -12,8 +12,13 @@ contract Signup {
         return newUsers[e];
     }
 
-    function deleteUser(string e) public {
+    function deletePermanant(string e) public {
         delete newUsers[e];
+    }
+
+    function deleteUser(string name, string age, string imageHash, string password, string email) public {
+        delete newUsers[email];
+        addUser(name, age, imageHash, password, email);
     }
 }
 
