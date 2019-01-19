@@ -153,7 +153,7 @@ class Login extends Component {
           </Button.Group>
         </Form>
         <h3>
-          <Link route={'/password/update'}>
+          <Link route={"/password/update"}>
             <a>Forget Password</a>
           </Link>
         </h3>

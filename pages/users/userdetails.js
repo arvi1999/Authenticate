@@ -17,6 +17,7 @@ import Layout from "../../components/Layout";
 import signup from "../../ethereum/Signup";
 import User from "../../ethereum/user";
 import web3 from "../../ethereum/web3";
+import {Router, Linker} from "../../routes";
 
 class UserDetails extends Component {
   static async getInitialProps(props) {
@@ -32,6 +33,13 @@ class UserDetails extends Component {
       imageHash: summary[3]
     };
   }
+
+  onClick = event => {
+    event.preventDefault();
+    const {address, email} = this.props;
+    alert("once this process done, you can't go back !!");
+    Router.pushRoute(`/users/${email}/${address}/deleteaccount`);
+  };
 
   render() {
     const { address, name, dob, email, imageHash } = this.props;
@@ -59,6 +67,10 @@ class UserDetails extends Component {
               <Segment color="black">Date of Birth: {dob}</Segment>
               <Segment color="black">Email-ID: {email}</Segment>
               <Segment color="black">ImageHash: {imageHash}</Segment>
+              <Button negative style={{ marginTop: "30px" }} floated="right" onClick={this.onClick}>
+                <Icon name="user delete" />
+                Permanent delete Account !!
+              </Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>

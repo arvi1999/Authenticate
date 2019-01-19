@@ -1,8 +1,9 @@
-const routes = require('next-routes')();
+const routes = require("next-routes")();
 
 routes
-  .add('/users/:address','/users/userdetails')
-  .add('/password/update','/password/update')
-  .add('/password/:email/:address','/password/new');
+  .add("/users/:address", "/users/userdetails")
+  .add("/password/update", "/password/update")
+  .add("/users/:email/:address/deleteaccount", "/users/deleteaccount")
+  .add("/password/:email/:address", "/password/new");
 
 module.exports = routes;
