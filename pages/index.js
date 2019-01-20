@@ -14,6 +14,9 @@ import Layout from "../components/Layout";
 import signup from "../ethereum/Signup";
 import web3 from "../ethereum/web3";
 import { Router, Link } from "../routes";
+import Sha from "../sha256";
+import Dec from "../decrypt";
+import Enc from "../encrypt";
 
 class Signup extends Component {
   constructor(props) {
@@ -55,8 +58,7 @@ class Signup extends Component {
             console.error(error);
             return;
           }
-          this.setState({ imageHash: result[0].hash });
-          console.log(result[0].hash);
+          this.setState({ imageHash: Enc(result[0].hash) });
         });
       } else {
         this.setState({ errorMessage: "Image is not selected..." });
@@ -66,47 +68,8 @@ class Signup extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    const value = this.state.password;
-    var key = [
-      0,
-      7,
-      2,
-      8,
-      54,
-      5,
-      61,
-      47,
-      1,
-      9,
-      0,
-      112,
-      1762,
-      173,
-      14,
-      1455,
-      12786,
-      157,
-      18,
-      2,
-      20,
-      943021,
-      2432,
-      3223,
-      274,
-      2525,
-      2246,
-      23457,
-      2528,
-      2259,
-      3430,
-      3641
-    ];
-    var pass = "";
-    var cpass = "";
-    for (var i = 0; i < value.length; ++i) {
-      pass += String.fromCharCode(key[i % key.length] ^ value.charCodeAt(i));
-      cpass += String.fromCharCode(key[i % key.length] ^ value.charCodeAt(i));
-    }
+    var pass = Sha(this.state.password);
+    var cpass = Sha(this.state.confirmPassword);
 
     this.setState({ errorMessage: "" });
     const { name, day, month, year, email, imageHash } = this.state;

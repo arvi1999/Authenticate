@@ -15,6 +15,9 @@ import signup from "../../ethereum/Signup";
 import User from "../../ethereum/user";
 import web3 from "../../ethereum/web3";
 import { Router, Link } from "../../routes";
+import Sha from "../../sha256";
+import Dec from "../../decrypt";
+import Enc from "../../encrypt";
 
 class UpdatedPassword extends Component {
   state = {
@@ -31,7 +34,7 @@ class UpdatedPassword extends Component {
     return {
       name: summary[0],
       dob: summary[1],
-      email: summary[2],
+      email: Dec(props.query.email),
       imageHash: summary[3]
     };
   }
@@ -40,50 +43,8 @@ class UpdatedPassword extends Component {
     event.preventDefault();
     const {email, name, dob, imageHash} = this.props;
 
-    const value1 = this.state.password;
-    const value2 = this.state.confirmPassword;
-    var key = [
-      0,
-      7,
-      2,
-      8,
-      54,
-      5,
-      61,
-      47,
-      1,
-      9,
-      0,
-      112,
-      1762,
-      173,
-      14,
-      1455,
-      12786,
-      157,
-      18,
-      2,
-      20,
-      943021,
-      2432,
-      3223,
-      274,
-      2525,
-      2246,
-      23457,
-      2528,
-      2259,
-      3430,
-      3641
-    ];
-    var pass = "";
-    var cpass = "";
-    for (var i = 0; i < value1.length; ++i) {
-      pass += String.fromCharCode(key[i % key.length] ^ value1.charCodeAt(i));
-    }
-    for (var i = 0; i < value2.length; ++i) {
-      cpass += String.fromCharCode(key[i % key.length] ^ value2.charCodeAt(i));
-    }
+    const pass = Sha(this.state.password);
+    const cpass = Sha(this.state.confirmPassword);
 
     this.setState({ errorMessage: "" });
 

@@ -18,6 +18,9 @@ import signup from "../../ethereum/Signup";
 import User from "../../ethereum/user";
 import web3 from "../../ethereum/web3";
 import {Router, Linker} from "../../routes";
+import Sha from "../../sha256";
+import Dec from "../../decrypt";
+import Enc from "../../encrypt";
 
 
 class DeleteAccount extends Component {
@@ -29,10 +32,9 @@ class DeleteAccount extends Component {
   };
 
   static async getInitialProps(props) {
-    const user = User(props.query.address);
-    const email =props.query.email;
-    // const user = User("0xacbacA6D7D258f21B069eF94cBE89abC4b9941bB");
-    // const email ="arvindkumarsjpr@gmail.com";
+    const address = (props.query.address);
+    const user = User(address);
+    const email = Dec(props.query.email);
     const password = await user.methods.getPassword().call();
     console.log("password is : ", password);
     return {
@@ -45,50 +47,8 @@ class DeleteAccount extends Component {
     const { email, password } = this.props;
     // const { pass, cpass } = this.state;
 
-    const value1 = this.state.password;
-    const value2 = this.state.confirmPassword;
-    var key = [
-      0,
-      7,
-      2,
-      8,
-      54,
-      5,
-      61,
-      47,
-      1,
-      9,
-      0,
-      112,
-      1762,
-      173,
-      14,
-      1455,
-      12786,
-      157,
-      18,
-      2,
-      20,
-      943021,
-      2432,
-      3223,
-      274,
-      2525,
-      2246,
-      23457,
-      2528,
-      2259,
-      3430,
-      3641
-    ];
-    var pass = "";
-    var cpass = "";
-    for (var i = 0; i < value1.length; ++i) {
-      pass += String.fromCharCode(key[i % key.length] ^ value1.charCodeAt(i));
-    }
-    for (var i = 0; i < value2.length; ++i) {
-      cpass += String.fromCharCode(key[i % key.length] ^ value2.charCodeAt(i));
-    }
+    const pass = Sha(this.state.password);
+    const cpass = Sha(this.state.confirmPassword);
 
     this.setState({loading: true, errorMessage: ''});
 

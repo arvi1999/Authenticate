@@ -15,6 +15,10 @@ import signup from "../ethereum/Signup";
 import User from "../ethereum/user";
 import web3 from "../ethereum/web3";
 import { Router, Link } from "../routes";
+import Sha from "../sha256";
+import Dec from "../decrypt";
+import Enc from "../encrypt";
+
 
 class Login extends Component {
   constructor(props) {
@@ -34,47 +38,9 @@ class Login extends Component {
 
     this.setState({ errorMessage: "" });
 
-    const value = this.state.password;
-    var key = [
-      0,
-      7,
-      2,
-      8,
-      54,
-      5,
-      61,
-      47,
-      1,
-      9,
-      0,
-      112,
-      1762,
-      173,
-      14,
-      1455,
-      12786,
-      157,
-      18,
-      2,
-      20,
-      943021,
-      2432,
-      3223,
-      274,
-      2525,
-      2246,
-      23457,
-      2528,
-      2259,
-      3430,
-      3641
-    ];
-    var pass = "";
-    for (var i = 0; i < value.length; ++i) {
-      pass += String.fromCharCode(key[i % key.length] ^ value.charCodeAt(i));
-    }
+    const pass = Sha(this.state.password);
 
-    const { email, password } = this.state;
+    const { email } = this.state;
 
     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 

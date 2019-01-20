@@ -15,6 +15,9 @@ import signup from "../../ethereum/Signup";
 import User from "../../ethereum/user";
 import web3 from "../../ethereum/web3";
 import { Router, Link } from "../../routes";
+import Sha from "../../sha256";
+import Dec from "../../decrypt";
+import Enc from "../../encrypt";
 
 class UpdatePassword extends Component {
   state = {
@@ -37,7 +40,7 @@ class UpdatePassword extends Component {
         const address = await signup.methods.getUsers(this.state.email).call();
         if (address !== "0x0000000000000000000000000000000000000000") {
           this.setState({ address: address });
-          Router.pushRoute(`/password/${this.state.email}/${address}`);
+          Router.pushRoute(`/password/${Enc(this.state.email)}/${address}`);
         } else {
           this.setState({ errorMessage: "Email not found in our records !!" });
           this.setState({ loading: false });

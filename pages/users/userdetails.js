@@ -18,6 +18,9 @@ import signup from "../../ethereum/Signup";
 import User from "../../ethereum/user";
 import web3 from "../../ethereum/web3";
 import {Router, Linker} from "../../routes";
+import Sha from "../../sha256";
+import Dec from "../../decrypt";
+import Enc from "../../encrypt";
 
 class UserDetails extends Component {
   static async getInitialProps(props) {
@@ -38,11 +41,12 @@ class UserDetails extends Component {
     event.preventDefault();
     const {address, email} = this.props;
     alert("once this process done, you can't go back !!");
-    Router.pushRoute(`/users/${email}/${address}/deleteaccount`);
+    Router.pushRoute(`/users/${Enc(email)}/${address}/deleteaccount`);
   };
 
   render() {
-    const { address, name, dob, email, imageHash } = this.props;
+    const imageHash = Dec(this.props.imageHash);
+    const { address, name, dob, email} = this.props;
     return (
       <Layout>
         <h1
@@ -63,10 +67,10 @@ class UserDetails extends Component {
               </Card>
             </Grid.Column>
             <Grid.Column width={10} style={{ marginTop: "20px" }}>
-              <Segment color="black">Name: {name}</Segment>
-              <Segment color="black">Date of Birth: {dob}</Segment>
-              <Segment color="black">Email-ID: {email}</Segment>
-              <Segment color="black">ImageHash: {imageHash}</Segment>
+              <Segment color="black" style={ {overflowWrap: "break-word"} }>Name: {name}</Segment>
+              <Segment color="black" style={ {overflowWrap: "break-word"} }>Date of Birth: {dob}</Segment>
+              <Segment color="black" style= {{ overflowWrap: "break-word" }}>Email-ID: {email}</Segment>
+              <Segment color="black" style= {{ overflowWrap: "break-word" }}>ImageHash: {imageHash}</Segment>
               <Button negative style={{ marginTop: "30px" }} floated="right" onClick={this.onClick}>
                 <Icon name="user delete" />
                 Permanent delete Account !!
