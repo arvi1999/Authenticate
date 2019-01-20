@@ -26,7 +26,6 @@ class UserDetails extends Component {
   static async getInitialProps(props) {
     const user = User(props.query.address);
     const summary = await user.methods.getDetails().call();
-    console.log(summary);
     const dob = summary[1].replace(/ /g, "-");
     return {
       address: props.query.address,
