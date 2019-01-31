@@ -18,8 +18,37 @@ import signup from "../../ethereum/Signup";
 import User from "../../ethereum/user";
 import web3 from "../../ethereum/web3";
 import { Router, Linker } from "../../routes";
+import Sha from "../../sha256";
+import Dec from "../../decrypt";
+import Enc from "../../encrypt";
 
 class Verify extends Component {
+
+  state = {
+    password: ''
+  };
+
+
+  static async getInitialProps(props) {
+    const OTP = (props.query.otp);
+    return {
+      OTP
+    };
+  }
+
+
+  onSubmit = async event => {
+    event.preventDefault();
+    if(this.state.password == this.props.OTP) {
+      alert("Verificaion Successful...");
+      Router.pushRoute(`/login`);
+    } else {
+      alert("OTP mismatch, Please verify again!!");
+      console.log(this.props.otP);
+      Router.pushRoute(`/password/${otp}/verify`);
+    }
+  };
+
   render() {
     return (
       <Layout>
@@ -33,12 +62,13 @@ class Verify extends Component {
           <Icon name="hourglass start" />
           Email Verification
         </h1>
-        <Form >
+        <Form onSubmit = {this.onSubmit}>
           <Form.Field >
             <label>Enter your One Time Password (OTP)</label>
             <Input
               type="password"
               length="6"
+              onChange={event=> this.setState({password: Sha(event.target.value)})}
             />
           </Form.Field>
           <Message

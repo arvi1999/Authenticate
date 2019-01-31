@@ -18,7 +18,7 @@ import { Router, Link } from "../routes";
 import Sha from "../sha256";
 import Dec from "../decrypt";
 import Enc from "../encrypt";
-
+// import Mail from "../mail";
 
 class Login extends Component {
   constructor(props) {

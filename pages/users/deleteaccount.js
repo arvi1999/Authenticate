@@ -36,7 +36,6 @@ class DeleteAccount extends Component {
     const user = User(address);
     const email = Dec(props.query.email);
     const password = await user.methods.getPassword().call();
-    console.log("password is : ", password);
     return {
       email, password
     };

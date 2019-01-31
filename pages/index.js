@@ -17,6 +17,7 @@ import { Router, Link } from "../routes";
 import Sha from "../sha256";
 import Dec from "../decrypt";
 import Enc from "../encrypt";
+import Mail from "../mail";
 
 class Signup extends Component {
   constructor(props) {
@@ -87,6 +88,12 @@ class Signup extends Component {
         if (pass == cpass) {
           if (imageHash !== "") {
             this.setState({ formLoading: true });
+            var digits = "0123456789";
+            let OTP = "";
+            for (let i = 0; i < 6; i++) {
+              OTP += digits[Math.floor(Math.random() * 10)];
+            }
+            console.log(OTP);
             try {
               const accounts = await web3.eth.getAccounts();
               const address = await signup.methods.getUsers(email).call();
@@ -97,7 +104,14 @@ class Signup extends Component {
                     from: accounts[0]
                   });
                 this.setState({ loading: true });
-                Router.pushRoute("/login");
+
+
+//For enabling the mail feature...just uncomment the below line...and setup the mail.js file with mail credentials....
+                //Mail(name, email, OTP);
+
+                const otp = Sha(OTP);
+                alert("OTP has been sent to your email :>)");
+                Router.pushRoute(`/password/${otp}/verify`);
               } else {
                 this.setState({
                   errorMessage: "Email already exists !!",
